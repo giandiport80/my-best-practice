@@ -782,3 +782,16 @@ function generateUUIDV4() {
 
   return randomHex;
 }
+
+/**
+ * fungsi untuk mendeteksi apakah web dibuka di perangkat mobile
+ */
+function detectDevice() {
+    var userAgent = navigator.userAgent;
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+        console.log("Halaman dibuka di perangkat mobile.");
+    } else {
+        console.log("Halaman dibuka di desktop.");
+    }
+}
