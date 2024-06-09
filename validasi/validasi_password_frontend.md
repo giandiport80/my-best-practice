@@ -6,6 +6,24 @@ LINK CDN zxcvbn
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
 ```
 
+pada form html
+
+```html
+<div class="form-group">
+    <label for="password">Password</label>
+    <small id="passwordStrength" class="text-success"></small>
+    <div class="input-group mb-3">
+        <input type="password" name="password" id="password" class="form-control" required>
+        <div class="input-group-append">
+            <button class="btn btn-info btn-password" type="button">
+                <i class="fa-sharp fa-solid fa-eye"></i>
+            </button>
+        </div>
+    </div>
+    <small id="passwordError" class="text-danger"></small>
+</div>
+```
+
 ```js
 $('#password').on('input', function() {
     validatePassword();
@@ -75,5 +93,21 @@ function validatePassword() {
 
     return true;
 }
+
+$("#form").on("submit", function(e) {
+    e.preventDefault();
+
+    if (!validatePassword()) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Password belum memenuhi syarat',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ya',
+            timer: 3000,
+        });
+        return;
+    }
+});
 ```
 

@@ -9,6 +9,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Sample extends CI_Controller
 {
+    public function store()
+    {
+        // panggil fungsinya
+        $this->_validate();
+
+        // lakukan proses simpan data...
+    }
+
     protected function _validate()
     {
         $this->config->set_item('language', 'indonesian');
@@ -41,5 +49,4 @@ class Sample extends CI_Controller
         }
     }
 }
-
 ```
