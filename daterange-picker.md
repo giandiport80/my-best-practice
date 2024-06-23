@@ -1,0 +1,51 @@
+# Filter daterange picker JQuery
+
+Load aset Jquery dan daterange picker
+```html
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+```
+
+Buat fungsi load daterange picker
+```javascript
+  var tgl_mulai = "";
+  var tgl_akhir = "";
+
+  $('#daterange').daterangepicker({
+    startDate: moment(),
+    endDate: moment(),
+    opens: 'right',
+    locale: {
+      format: 'DD/MM/YYYY',
+      applyLabel: 'Terapkan',
+      cancelLabel: 'Bersihkan',
+      customRangeLabel: 'Rentang Kustom',
+      placeholder: 'Pilih tanggal',
+    },
+  });
+
+  resetDateRangePicker();
+
+  $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+    tgl_mulai = picker.startDate.format('YYYY-MM-DD');
+    tgl_akhir = picker.endDate.format('YYYY-MM-DD');
+
+    reload_table();
+  });
+
+  $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+    tgl_akhir = "";
+    tgl_mulai = "";
+
+    resetDateRangePicker();
+    reload_table();
+  });
+
+  function resetDateRangePicker() {
+    $('input[name="range_tanggal"]').val('');
+    $('input[name="range_tanggal"]').attr("placeholder", "Pilih tanggal");
+  }
+```
