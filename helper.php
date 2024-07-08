@@ -572,3 +572,22 @@ function generateUUIDV4()
 
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }
+
+/**
+ * redirect intended for codeigniter 3
+ *
+ * @param string $default_url
+ */
+function redirect_intended($default_url)
+{
+    $CI = &get_instance();
+    $redirect_url = $CI->session->userdata("redirect_url");
+
+    if ($CI->session->userdata("redirect_url") != null) {
+        $CI->session->set_userdata('redirect_url', null);
+
+        redirect($redirect_url);
+    } else {
+        redirect($default_url);
+    }
+}
