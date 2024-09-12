@@ -288,7 +288,7 @@ function fetchCURL($url, $method = 'GET', $data = null, $headers = array())
         case 'POST':
             curl_setopt($curl, CURLOPT_POST, true);
             break;
-        case 'PUT':****
+        case 'PUT':
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
             break;
         case 'DELETE':
@@ -590,4 +590,49 @@ function redirect_intended($default_url)
     } else {
         redirect($default_url);
     }
+}
+
+/**
+ * generate objectId
+ *
+ * @return string
+ */
+function generateMongoObjectId()
+{
+    // Helper to pad a number with leading zeros to get a 2-character hex string
+    $padTo2Digits = function ($num) {
+        return str_pad(dechex($num), 2, '0', STR_PAD_LEFT);
+    };
+
+    // 4-byte timestamp (seconds since epoch)
+    $timestamp = dechex(time());
+    $timestamp = str_pad($timestamp, 8, '0', STR_PAD_LEFT); // Pad to 8 characters
+
+    // 3-byte machine identifier (using random values for simulation)
+    $machineId = '';
+    for ($i = 0; $i < 3; $i++) {
+        $machineId .= $padTo2Digits(random_int(0, 255));
+    }
+
+    // 2-byte process identifier (random value for simulation)
+    $processId = $padTo2Digits(random_int(0, 0xFFFF));
+
+    // 3-byte counter based on current time for uniqueness
+    $counter = dechex((int)(microtime(true) * 1000) % 0xFFFFFF); // Multiplier adjusted for millisecond precision
+    $counter = str_pad($counter, 6, '0', STR_PAD_LEFT); // Pad to 6 characters
+
+    // Combine all parts to form the ObjectId
+    return $timestamp . $machineId . $processId . $counter;
+}
+
+function getTimestampFromObjectId($id)
+{
+    if (strlen($id) !== 24 || !preg_match('/^[a-fA-F0-9]{24}$/', $id)) {
+        return false; // ID tidak valid
+    }
+
+    $timestampHex = substr($id, 0, 8);
+    $timestamp = hexdec($timestampHex);
+
+    return date('Y-m-d H:i:s', $timestamp);
 }

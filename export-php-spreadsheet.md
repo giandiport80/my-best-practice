@@ -115,7 +115,8 @@ $sheet->getStyle("C$rowNamaKepalaSekolah")->getFont()->setBold(true);
 $sheet->setCellValue("C$rowNamaKepalaSekolah", 'Gian Nurwana, S.Kom');
 
 $sheet->getColumnDimension('A')->setAutoSize(true);
-$sheet->getColumnDimension('B')->setWidth(10);
+$sheet->getColumnDimension('B')->set
+(10);
 $sheet->getColumnDimension('C')->setAutoSize(true);
 
 $writer = new Xlsx($spreadsheet);

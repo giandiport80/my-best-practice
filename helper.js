@@ -787,11 +787,59 @@ function generateUUIDV4() {
  * fungsi untuk mendeteksi apakah web dibuka di perangkat mobile
  */
 function detectDevice() {
-    var userAgent = navigator.userAgent;
+  var userAgent = navigator.userAgent;
 
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-        console.log("Halaman dibuka di perangkat mobile.");
-    } else {
-        console.log("Halaman dibuka di desktop.");
-    }
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      userAgent
+    )
+  ) {
+    console.log('Halaman dibuka di perangkat mobile.');
+  } else {
+    console.log('Halaman dibuka di desktop.');
+  }
 }
+
+/**
+ * fungsi untuk generate objectId
+ */
+function generateMongoObjectId() {
+  // Helper function to pad a number with leading zeros to get a 2-character hex string
+  function padTo2Digits(num) {
+    return num.toString(16).padStart(2, '0');
+  }
+
+  // 4-byte timestamp
+  const timestamp = Math.floor(Date.now() / 1000); // current time in seconds
+  const timestampHex = timestamp.toString(16).padStart(8, '0'); // Convert to hex and pad to 8 characters
+
+  // 3-byte machine identifier
+  const machineId = Array.from(crypto.getRandomValues(new Uint8Array(3)))
+    .map(byte => padTo2Digits(byte))
+    .join('');
+
+  // 2-byte process identifier
+  const processId = padTo2Digits(process.pid % 0xffff); // Use the process ID, modulo 2-byte range, convert to hex
+
+  // 3-byte counter
+  if (typeof generateMongoObjectId.counter === 'undefined') {
+    generateMongoObjectId.counter = Math.floor(Math.random() * 0xffffff); // Initialize with random value
+  } else {
+    generateMongoObjectId.counter =
+      (generateMongoObjectId.counter + 1) & 0xffffff; // Increment and ensure it's 3 bytes
+  }
+  const counterHex = generateMongoObjectId.counter
+    .toString(16)
+    .padStart(6, '0'); // Convert to hex and pad to 6 characters
+
+  // Combine all parts to form the ObjectId
+  return timestampHex + machineId + processId + counterHex;
+}
+
+function isValidObjectId(id) {
+  const objectIdPattern = /^[a-fA-F0-9]{24}$/;
+  return objectIdPattern.test(id);
+}
+
+console.log(isValidObjectId(generateMongoObjectId()));
+console.log(isValidObjectId(generateMongoObjectId()));
