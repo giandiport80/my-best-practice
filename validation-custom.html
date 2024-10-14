@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <title>Form Validation</title>
+</head>
+
+<body>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Form Validation</h5>
+        <form id="myForm">
+          <div class="form-group">
+            <label for="keterangan">Deskripsi</label>
+            <textarea name="keterangan" id="keterangan" class="form-control validate" data-required="true"
+              data-minlength="8" data-maxlength="200"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" class="form-control validate" data-required="true"
+              data-email="true">
+          </div>
+
+          <div class="form-group">
+            <label for="angka">Input Angka</label>
+            <input type="text" name="angka" id="angka" class="form-control validate" data-required="true"
+              data-isnumber="true" data-minvalue="10" data-maxvalue="100">
+          </div>
+
+          <div class="form-group">
+            <label for="kategori">Kategori</label>
+            <select name="kategori" id="kategori" class="form-control validate-select" data-required="true">
+              <option value="">Pilih Kategori</option>
+              <option value="1">Kategori 1</option>
+              <option value="2">Kategori 2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="kategoriSelect2">Kategori Select2</label>
+            <select name="kategoriSelect2" id="kategoriSelect2" class="form-control select2 validate-select"
+              data-required="true">
+              <option value="">Pilih Kategori</option>
+              <option value="1">Kategori 1</option>
+              <option value="2">Kategori 2</option>
+            </select>
+          </div>
+
+          <div class="form-group radio-group">
+            <label>Pilih Jenis Kelamin:</label><br>
+            <input type="radio" name="gender" class="validate-radio" data-required="true" value="Laki-laki">
+            <label for="gender">Laki-laki</label><br>
+            <input type="radio" name="gender" class="validate-radio" data-required="true" value="Perempuan">
+            <label for="gender">Perempuan</label><br>
+          </div>
+
+          <div class="form-group">
+            <label for="gambar">Foto</label>
+            <input type="file" name="foto" class="form-control validate-file" data-required="true" data-typesize="mb"
+              data-size="2">
+            <!-- <input type="file" name="foto" class="form-control validate-file" data-required="true" data-typesize="mb"
+              data-size="2"> -->
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap4-theme@1.0.0/dist/select2-bootstrap4.min.css">
+
+  <script src="validation-custom2.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $(".select2").select2({
+        theme: "bootstrap4"
+      });
+
+      $('#myForm').on('submit', function (e) {
+        if (!isValidForm()) {
+          e.preventDefault();
+          alert('Form tidak valid. Mohon periksa input Anda.');
+          return;
+        }
+
+        alert('Form valid. Submit berhasil.');
+      });
+
+      $(document).ready(function () {
+        initValidationOnInput();
+      });
+
+    });
+  </script>
+</body>
+
+</html>
