@@ -209,7 +209,7 @@ function validateOnSelect(element) {
 
   validationSelectRemove(element);
 
-  if (required && (value === null || value === '')) {
+  if (required && (value === null || value === '' || value.length === 0)) {
     validationSelect(element, 'Kolom ini harus diisi');
     return false;
   }
