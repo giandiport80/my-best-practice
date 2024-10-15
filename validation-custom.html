@@ -97,7 +97,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/select2-bootstrap4-theme@1.0.0/dist/select2-bootstrap4.min.css">
 
-  <script src="validation-custom2.js"></script>
+  <script src="utils/validation-custom2.js"></script>
 
   <script>
     $(document).ready(function () {
@@ -106,8 +106,9 @@
       });
 
       $('#myForm').on('submit', function (e) {
+        e.preventDefault();
+
         if (!isValidForm()) {
-          e.preventDefault();
           alert('Form tidak valid. Mohon periksa input Anda.');
           return;
         }

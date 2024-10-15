@@ -1,15 +1,23 @@
 /**
+ * menampilkan string error message
+ * @param {string} pesan
+ * @returns
+ */
+function getErrorMessage(pesan) {
+  return /* html */ `
+    <div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
+      <em>${pesan}</em>
+    </div>`;
+}
+
+/**
  * Menampilkan pesan error di bawah elemen input.
  * @param {HTMLElement} element - Elemen yang divalidasi.
  * @param {string} pesan - Pesan error yang akan ditampilkan.
  */
 function validation(element, pesan) {
   $(element).next('.error').remove();
-  $(element).after(
-    `<div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
-            <em>${pesan}</em>
-        </div>`
-  );
+  $(element).after(getErrorMessage(pesan));
   $(element).addClass('is-invalid');
 }
 
@@ -21,20 +29,10 @@ function validation(element, pesan) {
 function validationSelect(element, pesan) {
   if ($(element).hasClass('select2-hidden-accessible')) {
     $(element).next('.select2-container').next('.error').remove();
-    $(element)
-      .next('.select2-container')
-      .after(
-        `<div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
-                <em>${pesan}</em>
-            </div>`
-      );
+    $(element).next('.select2-container').after(getErrorMessage(pesan));
   } else {
     $(element).next('.error').remove();
-    $(element).after(
-      `<div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
-                <em>${pesan}</em>
-            </div>`
-    );
+    $(element).after(getErrorMessage(pesan));
   }
   $(element).closest('.form-control').addClass('is-invalid');
 }
@@ -46,13 +44,7 @@ function validationSelect(element, pesan) {
  */
 function validationRadio(element, pesan) {
   $(element).closest('.radio-group').find('.error').remove();
-  $(element)
-    .closest('.radio-group')
-    .append(
-      `<div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
-            <em>${pesan}</em>
-        </div>`
-    );
+  $(element).closest('.radio-group').append(getErrorMessage(pesan));
   $(element).closest('.radio-group').addClass('is-invalid');
 }
 
@@ -63,11 +55,7 @@ function validationRadio(element, pesan) {
  */
 function validationFile(element, pesan) {
   $(element).next('.error').remove();
-  $(element).after(
-    `<div class="error mt-1" style="font-weight:normal;color:red;font-size:12px;">
-            <em>${pesan}</em>
-        </div>`
-  );
+  $(element).after(getErrorMessage(pesan));
   $(element).addClass('is-invalid');
 }
 
