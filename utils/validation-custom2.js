@@ -272,10 +272,6 @@ function initValidationOnInput() {
     validateOnSelect(this);
   });
 
-  $('.select2').on('change', function () {
-    validateOnSelect(this);
-  });
-
   $('.validate-radio').on('change', function () {
     validateOnRadio($(this).attr('name'));
   });
