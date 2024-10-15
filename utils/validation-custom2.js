@@ -10,6 +10,8 @@ function getErrorMessage(pesan) {
     </div>`;
 }
 
+// VALIDATION SET ================================================================================
+
 /**
  * Menampilkan pesan error di bawah elemen input.
  * @param {HTMLElement} element - Elemen yang divalidasi.
@@ -81,6 +83,8 @@ function validationSelectRemove(element) {
   $(element).closest('.form-control').removeClass('is-invalid');
 }
 
+// VALIDATION REMOVE ================================================================================
+
 /**
  * Menghapus pesan error dari elemen radio.
  * @param {HTMLElement} element - Elemen radio yang divalidasi.
@@ -98,6 +102,18 @@ function validationFileRemove(element) {
   $(element).next('.error').remove();
   $(element).removeClass('is-invalid');
 }
+
+/**
+ * Memeriksa apakah string adalah alamat email yang valid.
+ * @param {string} email - Alamat email yang akan divalidasi.
+ * @returns {boolean} - Mengembalikan true jika valid, false jika tidak.
+ */
+function validateEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+// VALIDATION ON CHANGE ================================================================================
 
 /**
  * Melakukan validasi pada input teks saat terjadi perubahan.
@@ -152,16 +168,6 @@ function validateOnInput(element) {
   }
 
   return true;
-}
-
-/**
- * Memeriksa apakah string adalah alamat email yang valid.
- * @param {string} email - Alamat email yang akan divalidasi.
- * @returns {boolean} - Mengembalikan true jika valid, false jika tidak.
- */
-function validateEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
 }
 
 /**
@@ -254,6 +260,7 @@ function validateOnFile(element) {
 
 /**
  * Menginisialisasi validasi input oninput untuk elemen dengan kelas 'validate'.
+ * implementasi di script (bagian atas)
  */
 function initValidationOnInput() {
   $('.validate').on('input', function () {
@@ -279,6 +286,7 @@ function initValidationOnInput() {
 
 /**
  * Memeriksa validitas form sebelum disubmit.
+ * implementasi di script
  * @returns {boolean} - Mengembalikan true jika form valid, false jika tidak.
  */
 function isValidForm() {
