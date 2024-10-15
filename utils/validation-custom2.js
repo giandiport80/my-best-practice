@@ -216,7 +216,7 @@ function validateOnRadio(name) {
 function validateOnFile(element) {
   const required = $(element).data('required');
   const allowedExtensions = $(element).data('extfile');
-  const typeSize = $(element).data('typesize');
+  const typeSize = $(element).data('typesize') || 'mb';
   const sizeLimit = parseFloat($(element).data('size'));
 
   validationRemove(element);
@@ -231,19 +231,20 @@ function validateOnFile(element) {
   if (file) {
     const fileName = file.name.toLowerCase();
     const fileExtension = fileName.split('.').pop();
+    const allowedExtensionArray = allowedExtensions.split(',');
+    const allowedExntensionText = allowedExtensionArray.join(', ');
 
-    if (
-      allowedExtensions &&
-      !allowedExtensions.split(',').includes(fileExtension)
-    ) {
-      validation(element, `Ekstensi file harus ${allowedExtensions}`);
+    if (!allowedExtensionArray.includes(fileExtension)) {
+      validation(
+        element,
+        `Format file harus bertipe: ${allowedExntensionText}`
+      );
       return false;
     }
 
-    const fileSizeInMB = file.size / (1024 * 1024); // Ukuran dalam MB
-    const fileSizeInKB = file.size / 1024; // Ukuran dalam KB
+    const fileSizeInMB = file.size / (1024 * 1024);
+    const fileSizeInKB = file.size / 1024;
 
-    // Validasi ukuran file sesuai unit yang dipilih
     if (typeSize === 'mb' && fileSizeInMB > sizeLimit) {
       validation(element, `Ukuran file tidak boleh lebih dari ${sizeLimit} MB`);
       return false;

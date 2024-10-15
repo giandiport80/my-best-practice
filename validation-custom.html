@@ -68,8 +68,9 @@
 
           <div class="form-group">
             <label for="gambar">Foto</label>
+            <small class="text-info">(Format file harus bertipe jpg,png,jpeg)</small>
             <input type="file" name="foto" class="form-control validate-file" data-required="true" data-typesize="mb"
-              data-size="2">
+              data-extfile="jpg,png,jpeg" data-size="2">
             <!-- <input type="file" name="foto" class="form-control validate-file" data-required="true" data-typesize="mb"
               data-size="2"> -->
           </div>
@@ -118,6 +119,9 @@
 
       $(document).ready(function () {
         initValidationOnInput();
+
+        // jika form edit, requirednya menjadi opsional pada form file
+        // $('[name=foto]').data("required", false);
       });
 
     });
