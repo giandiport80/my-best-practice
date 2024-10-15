@@ -31,6 +31,17 @@
         <h5>Form Validation</h5>
         <form id="myForm">
           <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" name="name" class="form-control validate" data-required="true" data-alphabetic="true" />
+          </div>
+
+          <div class="form-group">
+            <label for="nama2">Nama 2</label>
+            <input type="text" name="name2" class="form-control validate" data-required="true"
+              data-specialchar="*,%,$" />
+          </div>
+
+          <div class="form-group">
             <label for="keterangan">Deskripsi</label>
             <textarea name="keterangan" id="keterangan" class="form-control validate" data-required="true"
               data-minlength="8" data-maxlength="200"></textarea>

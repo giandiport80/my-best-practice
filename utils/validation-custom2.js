@@ -137,6 +137,10 @@ function validateOnInput(element) {
   const minValue = $(element).data('minvalue');
   const maxValue = $(element).data('maxvalue');
   const isEmail = $(element).data('email');
+  const isAlphabetic = $(element).data('alphabetic');
+  const specialChars = $(element).data('specialchar')
+    ? $(element).data('specialchar').split(',')
+    : [];
 
   validationRemove(element);
 
@@ -153,6 +157,22 @@ function validateOnInput(element) {
   if (maxLength && value.length > maxLength) {
     validation(element, `Maksimal ${maxLength} karakter`);
     return false;
+  }
+
+  if (isAlphabetic && !/^[A-Za-z\s]+$/.test(value)) {
+    validation(element, 'Kolom ini hanya boleh berisi huruf');
+    return false;
+  }
+
+  const spescialCharText = specialChars.join(', ');
+  for (const char of specialChars) {
+    if (value.includes(char.trim())) {
+      validation(
+        element,
+        `Kolom ini tidak boleh mengandung karakter khusus: ${spescialCharText}`
+      );
+      return false;
+    }
   }
 
   if (isNumber && isNaN(value)) {
@@ -190,7 +210,7 @@ function validateOnSelect(element) {
   validationSelectRemove(element);
 
   if (required && (value === null || value === '')) {
-    validationSelect(element, 'Kolom ini harus diisi select');
+    validationSelect(element, 'Kolom ini harus diisi');
     return false;
   }
 
