@@ -80,7 +80,6 @@
             </select>
           </div>
 
-
           <div class="form-group">
             <label for="kategoriSelect2">Kategori Select2</label>
             <select name="kategoriSelect2" id="kategoriSelect2" class="form-control select2 validate-select"
@@ -148,14 +147,71 @@
         }
 
         alert('Form valid. Submit berhasil.');
+
+        const response = getError1();
+        handleCodeIgniterError(response);
+
+        // const response = getError2();
+        // handleLaravelError(response);
       });
 
       $(document).ready(function () {
         initValidationOnInput();
 
         // jika form edit, requirednya menjadi opsional pada form file
-        // $('[name=foto]').data("required", false);
+        $('[name=foto]').data("required", false);
       });
+
+      // error codeigniter 3
+      function getError1() {
+        return {
+          "error_class": [
+            "name",
+            "name2",
+            "keterangan",
+            "email",
+            "angka",
+            "kategori",
+            "kategori2",
+            "kategoriSelect2",
+            "gender",
+            "foto"
+          ],
+          "error_string": [
+            "Nama tidak boleh kosong.",
+            "Nama 2 tidak boleh mengandung karakter *, % atau $.",
+            "Deskripsi harus memiliki setidaknya 8 karakter.",
+            "Email harus berupa alamat email yang valid.",
+            "Nilai angka harus antara 10 dan 100.",
+            "Pilih kategori.",
+            "Pilih minimal satu kategori.",
+            "Pilih kategori untuk select2.",
+            "Pilih jenis kelamin.",
+            "File foto harus berupa jpg, png, jpeg, dan maksimal 2MB."
+          ],
+          "success": false,
+          "message": "Periksa kembali kolom inputan anda"
+        }
+      }
+
+      // error laravel
+      function getError2() {
+        return {
+          "message": "The given data was invalid.",
+          "errors": {
+            "name": ["Nama tidak boleh kosong."],
+            "name2": ["Nama 2 tidak boleh mengandung karakter *, % atau $."],
+            "keterangan": ["Deskripsi harus memiliki setidaknya 8 karakter."],
+            "email": ["Email harus berupa alamat email yang valid."],
+            "angka": ["Nilai angka harus antara 10 dan 100."],
+            "kategori": ["Pilih kategori."],
+            "kategori2": ["Pilih minimal satu kategori."],
+            "kategoriSelect2": ["Pilih kategori untuk select2."],
+            "gender": ["Pilih jenis kelamin."],
+            "foto": ["File foto harus berupa jpg, png, jpeg, dan maksimal 2MB."]
+          }
+        }
+      }
 
     });
   </script>

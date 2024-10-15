@@ -343,3 +343,52 @@ function isValidForm() {
 
   return isValid;
 }
+
+// HANDLE ERROR SERVER =============================================================================
+function handleCodeIgniterError(data) {
+  data.error_class.forEach((inputName, i) => {
+    const errorMessage = data.error_string[i];
+    const element = $(`[name="${inputName}"]`);
+
+    if (element.hasClass('select2')) {
+      const isMultiple = element.is('[multiple]');
+
+      if (isMultiple) {
+        validationSelect(`[name="${inputName}[]"]`, errorMessage);
+      } else {
+        validationSelect(`[name="${inputName}"]`, errorMessage);
+      }
+    } else if (element.attr('type') === 'radio') {
+      validationRadio(`[name="${inputName}"]`, errorMessage);
+    } else if (element.attr('type') === 'file') {
+      validationFile(`[name="${inputName}"]`, errorMessage);
+    } else {
+      validation(`[name="${inputName}"]`, errorMessage);
+    }
+  });
+}
+
+function handleLaravelError(data) {
+  Object.keys(data.errors).forEach(field => {
+    const errorMessage = data.errors[field][0];
+    const element = $(`[name="${field}"]`);
+
+    if (element.hasClass('select2')) {
+      const isMultiple = element.data('select2').options.options.multiple;
+      console.log(isMultiple);
+
+      if (isMultiple) {
+        validationSelect(`[name="${field}[]"]`, errorMessage);
+        console.log(`Validating multiple select: [name="${field}[]"]`);
+      } else {
+        validationSelect(`[name="${field}"]`, errorMessage);
+      }
+    } else if (element.attr('type') === 'radio') {
+      validationRadio(`[name="${field}"]`, errorMessage);
+    } else if (element.attr('type') === 'file') {
+      validationFile(`[name="${field}"]`, errorMessage);
+    } else {
+      validation(`[name="${field}"]`, errorMessage);
+    }
+  });
+}
