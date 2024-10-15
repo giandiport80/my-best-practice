@@ -30,13 +30,15 @@ function validation(element, pesan) {
  */
 function validationSelect(element, pesan) {
   if ($(element).hasClass('select2-hidden-accessible')) {
-    $(element).next('.select2-container').next('.error').remove();
     $(element).next('.select2-container').after(getErrorMessage(pesan));
+
+    $(element).next().find('.select2-selection').parent().addClass('has-error');
   } else {
     $(element).next('.error').remove();
     $(element).after(getErrorMessage(pesan));
+
+    $(element).closest('.form-control').addClass('is-invalid');
   }
-  $(element).closest('.form-control').addClass('is-invalid');
 }
 
 /**
@@ -77,10 +79,16 @@ function validationRemove(element) {
 function validationSelectRemove(element) {
   if ($(element).hasClass('select2-hidden-accessible')) {
     $(element).next('.select2-container').next('.error').remove();
+
+    $(element)
+      .next()
+      .find('.select2-selection')
+      .parent()
+      .removeClass('has-error');
   } else {
     $(element).next('.error').remove();
+    $(element).closest('.form-control').removeClass('is-invalid');
   }
-  $(element).closest('.form-control').removeClass('is-invalid');
 }
 
 // VALIDATION REMOVE ================================================================================
@@ -182,7 +190,7 @@ function validateOnSelect(element) {
   validationSelectRemove(element);
 
   if (required && (value === null || value === '')) {
-    validationSelect(element, 'Kolom ini harus diisi');
+    validationSelect(element, 'Kolom ini harus diisi select');
     return false;
   }
 
