@@ -18,8 +18,16 @@ function getErrorMessage(pesan) {
  * @param {string} pesan - Pesan error yang akan ditampilkan.
  */
 function validation(element, pesan) {
-  $(element).next('.error').remove();
-  $(element).after(getErrorMessage(pesan));
+  const errorPlaceSelector = $(element).data('errorplace');
+  $(element).removeClass('is-invalid');
+
+  if (errorPlaceSelector) {
+    $(errorPlaceSelector).html(getErrorMessage(pesan));
+  } else {
+    $(element).next('.error').remove();
+    $(element).after(getErrorMessage(pesan));
+  }
+
   $(element).addClass('is-invalid');
 }
 
@@ -67,8 +75,19 @@ function validationFile(element, pesan) {
  * Menghapus pesan error dari elemen input.
  * @param {HTMLElement} element - Elemen yang divalidasi.
  */
+/**
+ * Menghapus pesan error dari elemen input.
+ * @param {HTMLElement} element - Elemen yang divalidasi.
+ */
 function validationRemove(element) {
-  $(element).next('.error').remove();
+  const errorPlace = $(element).data('errorplace');
+
+  if (errorPlace) {
+    $(errorPlace).find('.error').remove();
+  } else {
+    $(element).next('.error').remove();
+  }
+
   $(element).removeClass('is-invalid');
 }
 
