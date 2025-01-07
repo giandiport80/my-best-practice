@@ -246,7 +246,7 @@ function dateIndo($format, $time = false)
  * @param array $headers
  * @return array data
  */
-function fetchCURL($url, $method = 'GET', $data = null, $headers = array())
+function fetchCURL($url, $method = 'GET', $data = null, $headers = [])
 {
     $curl = curl_init();
 
@@ -269,7 +269,19 @@ function fetchCURL($url, $method = 'GET', $data = null, $headers = array())
     }
 
     if ($data) {
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        $hasFile = false;
+        foreach ($data as $key => $value) {
+            if (is_file($value)) {
+                $data[$key] = new CURLFile($value);
+                $hasFile = true;
+            }
+        }
+
+        if ($hasFile) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        } else {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        }
     }
 
     if ($headers) {
@@ -294,6 +306,7 @@ function fetchCURL($url, $method = 'GET', $data = null, $headers = array())
 
     return json_decode($response, true);
 }
+
 
 /**
  * helper untuk format angka showrt
