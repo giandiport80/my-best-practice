@@ -60,36 +60,6 @@ function randomString($type = 'alnum', $len = 8)
 }
 
 /**
- * sample function untuk get data denngan curl
- *
- * @param string $id_hash
- * @param string $judul
- * @param string $message
- * @return string JSON-encoded
- */
-function sendNotifikasiPengunjung(string $id_hash, string $judul,  string $message)
-{
-    $useragent = "Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0";
-    $url       = 'http://localhost';
-    $curl      = curl_init();
-    $fields    = array(
-        'id_hash' => $id_hash,
-        'judul'   => $judul,
-        'isi'     => $message,
-    );
-    $postfields = http_build_query($fields);
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_USERAGENT, $useragent);
-    curl_setopt($curl, CURLOPT_USERPWD, 'username' . ':' . 'password');
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
-
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $result = curl_exec($curl);  //Getting jSON result string
-    curl_close($curl);
-}
-
-/**
  * fungsi untuk generate waktu saat ini
  * contoh: 2022-03-28 08: 54: 00
  *
@@ -455,58 +425,6 @@ function setHttpResponseStatusCode($statusCode)
 }
 
 /**
- * Codeigniter 3
- * mengambil input post dengan htmlspecialchars
- *
- * @param string $keys
- * 
- */
-function request_post($keys = null)
-{
-    $CI = &get_instance();
-
-    $post_data = $CI->input->post(null, true);
-
-    if ($keys == null) {
-        foreach ($post_data as $key => $value) {
-            $post_data[$key] = htmlspecialchars($value);
-        }
-    } else {
-        if (isset($post_data[$keys])) {
-            $post_data[$keys] = htmlspecialchars($post_data[$keys]);
-        }
-    }
-
-    return $post_data;
-}
-
-/**
- * Codeigniter 3
- * mengambil input get dengan htmlspecialchars
- *
- * @param string $keys
- * 
- */
-function request_get($keys = null)
-{
-    $CI = &get_instance();
-
-    $post_data = $CI->input->get(null, true);
-
-    if ($keys == null) {
-        foreach ($post_data as $key => $value) {
-            $post_data[$key] = htmlspecialchars($value);
-        }
-    } else {
-        if (isset($post_data[$keys])) {
-            $post_data[$keys] = htmlspecialchars($post_data[$keys]);
-        }
-    }
-
-    return $post_data;
-}
-
-/**
  * return 1 data filtered array data
  *
  * @param array $listData
@@ -573,24 +491,6 @@ function generateUUIDV4()
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }
 
-/**
- * redirect intended for codeigniter 3
- *
- * @param string $default_url
- */
-function redirect_intended($default_url)
-{
-    $CI = &get_instance();
-    $redirect_url = $CI->session->userdata("redirect_url");
-
-    if ($CI->session->userdata("redirect_url") != null) {
-        $CI->session->set_userdata('redirect_url', null);
-
-        redirect($redirect_url);
-    } else {
-        redirect($default_url);
-    }
-}
 
 /**
  * generate objectId
@@ -635,4 +535,52 @@ function getTimestampFromObjectId($id)
     $timestamp = hexdec($timestampHex);
 
     return date('Y-m-d H:i:s', $timestamp);
+}
+
+/**
+ * Retrieve a value from the $_POST superglobal.
+ *
+ * @param string|null $key The key to retrieve. If null, all $_POST data is returned.
+ * @param bool $xss Whether to sanitize the value using strip_tags. Default is true.
+ * @return mixed|null The requested value, sanitized or raw, or null if the key does not exist.
+ */
+function request_post($key = null, $xss = true)
+{
+    if ($key !== null) {
+        if (isset($_POST[$key])) {
+            return $xss ? strip_tags($_POST[$key]) : $_POST[$key];
+        } else {
+            return null;
+        }
+    } else {
+        $postData = $_POST;
+        if ($xss) {
+            $postData = array_map('strip_tags', $postData);
+        }
+        return $postData;
+    }
+}
+
+/**
+ * Retrieve a value from the $_GET superglobal.
+ *
+ * @param string|null $key The key to retrieve. If null, all $_GET data is returned.
+ * @param bool $xss Whether to sanitize the value using strip_tags. Default is true.
+ * @return mixed|null The requested value, sanitized or raw, or null if the key does not exist.
+ */
+function request_get($key = null, $xss = true)
+{
+    if ($key !== null) {
+        if (isset($_GET[$key])) {
+            return $xss ? strip_tags($_GET[$key]) : $_GET[$key];
+        } else {
+            return null;
+        }
+    } else {
+        $getData = $_GET;
+        if ($xss) {
+            $getData = array_map('strip_tags', $getData);
+        }
+        return $getData;
+    }
 }
