@@ -238,13 +238,14 @@ function dateIndo($format, $time = false)
 }
 
 /**
- * helper function curl php
+ * Helper function for making HTTP requests using cURL.
  *
- * @param string $url
- * @param string $method GET, POST, PUT, PATCH, DELETE
- * @param array $data
- * @param array $headers
- * @return array data
+ * @param string $url The URL to make the request to.
+ * @param string $method The HTTP method (GET, POST, PUT, PATCH, DELETE).
+ * @param array|null $data Data to send with the request (optional).
+ * @param array $headers Additional headers to include in the request (optional).
+ * @return array Decoded JSON response data.
+ * @throws Exception If a cURL error occurs.
  */
 function fetchCURL($url, $method = 'GET', $data = null, $headers = [])
 {
@@ -299,7 +300,7 @@ function fetchCURL($url, $method = 'GET', $data = null, $headers = [])
     if ($response === false) {
         $error = curl_error($curl);
         curl_close($curl);
-        return $error;
+        throw new Exception("cURL Error: {$error}");
     }
 
     curl_close($curl);
