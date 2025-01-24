@@ -7,7 +7,7 @@
  * @param string $keys
  * 
  */
-function request_pos_ci3t($keys = null)
+function request_post($keys = null)
 {
     $CI = &get_instance();
 
@@ -33,7 +33,7 @@ function request_pos_ci3t($keys = null)
  * @param string $keys
  * 
  */
-function request_get_ci3($keys = null)
+function request_get($keys = null)
 {
     $CI = &get_instance();
 
