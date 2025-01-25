@@ -1,0 +1,242 @@
+{
+  // Place your snippets for javascript here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "Selector input jquery": {
+    "prefix": "jqinput",
+    "body": ["$('[name=$1]')$0"],
+    "description": "Selector input jquery"
+  },
+  "Action type constant": {
+    "prefix": "actiontype",
+    "body": ["const $1 = '$1';$0"],
+    "description": "Snippet action type"
+  },
+  "Get value element jquery": {
+    "prefix": "thisval",
+    "body": ["\\$(this).val()"],
+    "description": "Get value element jquery"
+  },
+  "PHP Tag": {
+    "prefix": "php",
+    "body": ["<?php $1 ?>"],
+    "description": "PHP Tag"
+  },
+  "PHP short Tag": {
+    "prefix": "ph",
+    "body": ["<?php", "", "$0"],
+    "description": "PHP short Tag"
+  },
+  "PHP echo": {
+    "prefix": "phpp",
+    "body": ["<?= $$0 ?>"],
+    "description": "PHP echo"
+  },
+  "Sweet alert 2 success": {
+    "prefix": "swal2success",
+    "body": [
+      "Swal.fire({",
+      "  title: 'Berhasil!',",
+      "  text: 'Data berhasil disimpan',",
+      "  icon: 'success',",
+      "  confirmButtonColor: '#3085d6',",
+      "  confirmButtonText: 'Ya',",
+      "  timer: 3000,",
+      "});"
+    ],
+    "description": "Sweet alert 2 success"
+  },
+  "Sweet alert 2 error": {
+    "prefix": "swal2error",
+    "body": [
+      "Swal.fire({",
+      "  title: 'Error',",
+      "  text: 'Terjadi kesalahan',",
+      "  icon: 'error',",
+      "  confirmButtonColor: '#3085d6',",
+      "  confirmButtonText: 'Ya',",
+      "  timer: 3000,",
+      "});"
+    ],
+    "description": "Sweet alert 2 error"
+  },
+  "Sweet alert 2 confirm": {
+    "prefix": "swal2confirm",
+    "body": [
+      "Swal.fire({",
+      "  title: 'Konfirmasi',",
+      "  text: \"Apakah Anda yakin dengan data yang disimpan?\",",
+      "  icon: 'question',",
+      "  showCancelButton: true,",
+      "  confirmButtonColor: '#3085d6',",
+      "  confirmButtonText: 'Ya',",
+      "  cancelButtonColor: '#d33',",
+      "  cancelButtonText: 'Tidak',",
+      "}).then((result) => {",
+      "  if (result.value) {",
+      "    //",
+      "  }",
+      "});"
+    ],
+    "description": "Sweet alert 2 confirm"
+  },
+  "Sweet alert 2 full with ajax": {
+    "prefix": "swal2full",
+    "body": [
+      "Swal.fire({",
+      "  title: 'Konfirmasi',",
+      "  text: \"Apakah Anda yakin dengan data yang disimpan?\",",
+      "  icon: 'question',",
+      "  showCancelButton: true,",
+      "  confirmButtonColor: '#3085d6',",
+      "  confirmButtonText: 'Ya',",
+      "  cancelButtonColor: '#d33',",
+      "  cancelButtonText: 'Tidak',",
+      "}).then((result) => {",
+      "  if (result.value) {",
+      "    showLoading();",
+      "    $.ajax({",
+      "      type: form.method,",
+      "      url: form.action,",
+      "      data: new FormData(form),",
+      "      processData: false,",
+      "      contentType: false,",
+      "      success: function (response) {",
+      "        hideLoading();",
+      "        Swal.fire({",
+      "          title: 'Berhasil!',",
+      "          text: response.message,",
+      "          icon: 'success',",
+      "          confirmButtonColor: '#3085d6',",
+      "          confirmButtonText: 'Ya',",
+      "          timer: 3000,",
+      "        }).then(() => {",
+      "          //",
+      "        });",
+      "      },",
+      "      error: function (err, text) {",
+      "        hideLoading();",
+      "        Swal.fire({",
+      "          title: 'Error',",
+      "          text: err.responseJSON.message,",
+      "          icon: 'error',",
+      "          confirmButtonColor: '#3085d6',",
+      "          confirmButtonText: 'Ya',",
+      "          timer: 3000,",
+      "        });",
+      "      }",
+      "    });",
+      "  }",
+      "});"
+    ],
+    "description": "Sweet alert 2 full with ajax"
+  },
+  "Column No for datatable": {
+    "prefix": "nodatatable",
+    "body": [
+      "{",
+      "  data: null,",
+      "  title: 'No',",
+      "  render: function (data, type, row, meta) {",
+      "    var currentPage = table.page.info().page;",
+      "    var rowNumber = currentPage * table.page.len() + (meta.row + 1);",
+      "",
+      "    return rowNumber + '.';",
+      "  },",
+      "  orderable: false,",
+      "  searchable: false,",
+      "}",
+      ""
+    ],
+    "description": "Column No for datatable"
+  },
+  "Html List Error Ajax Wrapper": {
+    "prefix": "ajax_error_list",
+    "body": [
+      "if (err.responseJSON?.errors) {",
+      "  const listError = err.responseJSON.errors;",
+      "",
+      "  $('.error-list').empty();",
+      "  $('.error-alert').show();",
+      "",
+      "  $.each(listError, function (key, value) {",
+      "    $('.error-list').append(/* html */ `<li>\\${value}</li>`);",
+      "  });",
+      "",
+      "  Swal.fire({",
+      "    title: 'Validasi',",
+      "    html: err.responseJSON.message,",
+      "    icon: 'info',",
+      "    confirmButtonColor: '#3085d6',",
+      "    confirmButtonText: 'Ya',",
+      "    timer: 3000,",
+      "  });",
+      "} else {",
+      "  $('.error-list').empty();",
+      "  $('.error-alert').hide();",
+      "",
+      "  Swal.fire({",
+      "    title: 'Error',",
+      "    html: err.responseJSON.message,",
+      "    icon: 'error',",
+      "    confirmButtonColor: '#3085d6',",
+      "    confirmButtonText: 'Ya',",
+      "    timer: 3000,",
+      "  });",
+      "}"
+    ],
+    "description": "Html List Error Ajax"
+  },
+  "Html List Error Ajax Input": {
+    "prefix": "ajax_error_input",
+    "body": [
+      "if (err.responseJSON?.errors) {",
+      "  const response = err.responseJSON;",
+      "",
+      "  for (var i = 0; i < response.error_class.length; i++) {",
+      "    validation(",
+      "      /* html */ `[name=\"${response.error_class[i]}\"]`,",
+      "      response.error_string[i]",
+      "    );",
+      "  }",
+      "",
+      "  Swal.fire({",
+      "    title: 'Validasi',",
+      "    html: err.responseJSON?.message,",
+      "    type: 'info',",
+      "    confirmButtonColor: '#3085d6',",
+      "    confirmButtonText: 'Ya',",
+      "    timer: 3000,",
+      "  });",
+      "} else {",
+      "  let title = 'Error';",
+      "  let type = 'error';",
+      "",
+      "  if (err.status == 404 || err.status == 400) {",
+      "    type = 'info';",
+      "    title = 'Info';",
+      "  }",
+      "",
+      "  Swal.fire({",
+      "    title: title,",
+      "    text: err.responseJSON?.message ?? 'Terjadi kesalahan',",
+      "    type: type,",
+      "    confirmButtonColor: '#3085d6',",
+      "    confirmButtonText: 'Ya',",
+      "    timer: 3000,",
+      "  });",
+      "}"
+    ],
+    "description": "Html List Error Ajax Input"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  // Place your snippets for html here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "PHP Tag": {
+    "prefix": "php",
+    "body": ["<?php $1 ?>"],
+    "description": "PHP Tag"
+  },
+  "PHP short Tag": {
+    "prefix": "ph",
+    "body": ["<?php", "", "$0"],
+    "description": "PHP short Tag"
+  },
+  "PHP echo": {
+    "prefix": "phpp",
+    "body": ["<?= $$0 ?>"],
+    "description": "PHP echo"
+  },
+  "Simple meta tag": {
+    "prefix": "metasimple",
+    "body": [
+      "<meta charset=\"UTF-8\">",
+      "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">",
+      "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "<meta name=\"robots\" content=\"index, follow\">",
+      "<meta name=\"googlebot\" content=\"notranslate\">",
+      "<meta name=\"theme-color\" content=\"#075985\">",
+      "",
+      "<meta name=\"author\" content=\"Gian Nurwana\">",
+      "<meta name=\"title\" content=\"Website Title\">",
+      "<meta name=\"keywords\" content=\"keyword1, keyword2, keyword3\">",
+      "<meta name=\"description\" content=\"Website Description\">"
+    ],
+    "description": "simple meta tag"
+  },
+  "Full meta tag": {
+    "prefix": "metafull",
+    "body": [
+      "<meta charset=\"UTF-8\">",
+      "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">",
+      "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "<meta name=\"robots\" content=\"index, follow\">",
+      "<meta name=\"googlebot\" content=\"notranslate\">",
+      "<meta name=\"theme-color\" content=\"#075985\">",
+      "",
+      "<meta name=\"author\" content=\"Gian Nurwana\">",
+      "<meta name=\"title\" content=\"Website Title\">",
+      "<meta name=\"keywords\" content=\"keyword1, keyword2, keyword3\">",
+      "<meta name=\"description\" content=\"Website Description\">",
+      "",
+      "<!-- Open Graph / Facebook -->",
+      "<meta property=\"og:type\" content=\"website\">",
+      "<meta property=\"og:url\" content=\"https://giannurwana19.github.io\">",
+      "<meta property=\"og:title\" content=\"Website Title\">",
+      "<meta property=\"og:description\"",
+      " content=\"With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!\">",
+      "<meta property=\"og:image\"",
+      " content=\"https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png\">",
+      "",
+      "<!-- Twitter -->",
+      "<meta property=\"twitter:card\" content=\"summary_large_image\">",
+      "<meta property=\"twitter:url\" content=\"https://giannurwana19.github.io\">",
+      "<meta property=\"twitter:title\" content=\"Website Title\">",
+      "<meta property=\"twitter:description\"",
+      " content=\"With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!\">",
+      "<meta property=\"twitter:image\"",
+      " content=\"https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png\">"
+    ],
+    "description": "full meta tag"
+  },
+  "Alert list error validation": {
+    "prefix": "alert-error-validation",
+    "body": [
+      "<div class=\"alert alert-danger error-alert\" role=\"alert\" style=\"display: none;\">",
+      "    <ul class=\"error-list\"></ul>",
+      "</div>"
+    ],
+    "description": "Alert list error validation"
+  }
+}
