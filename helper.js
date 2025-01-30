@@ -843,3 +843,42 @@ function isValidObjectId(id) {
 
 console.log(isValidObjectId(generateMongoObjectId()));
 console.log(isValidObjectId(generateMongoObjectId()));
+
+/**
+ * Menghitung jarak antara dua titik koordinat (latitude & longitude) dalam meter.
+ *
+ * Menggunakan rumus Haversine untuk mendapatkan jarak akurat di permukaan bumi.
+ *
+ * @param {number} lat1 - Latitude titik pertama
+ * @param {number} lon1 - Longitude titik pertama
+ * @param {number} lat2 - Latitude titik kedua
+ * @param {number} lon2 - Longitude titik kedua
+ * @returns {number} Jarak dalam meter
+ */
+function hitungJarakRadius(lat1, lon1, lat2, lon2) {
+  const radiusBumi = 6371000; // Radius bumi dalam meter
+
+  // Konversi derajat ke radian
+  const radLat1 = lat1 * (Math.PI / 180);
+  const radLon1 = lon1 * (Math.PI / 180);
+  const radLat2 = lat2 * (Math.PI / 180);
+  const radLon2 = lon2 * (Math.PI / 180);
+
+  // Menghitung perbedaan koordinat
+  const dLat = radLat2 - radLat1;
+  const dLon = radLon2 - radLon1;
+
+  // Menggunakan rumus Haversine
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(radLat1) *
+      Math.cos(radLat2) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  // Menghitung jarak dalam meter
+  const jarak = radiusBumi * c;
+
+  return jarak; // Return dalam meter
+}

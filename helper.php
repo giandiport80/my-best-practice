@@ -598,3 +598,41 @@ function request_get($key = null, $xss = true)
         return $getData;
     }
 }
+
+/**
+ * Menghitung jarak antara dua titik koordinat (latitude & longitude) dalam meter.
+ * 
+ * Menggunakan rumus Haversine untuk mendapatkan jarak akurat di permukaan bumi.
+ * 
+ * @param float $lat1 Latitude titik pertama
+ * @param float $lon1 Longitude titik pertama
+ * @param float $lat2 Latitude titik kedua
+ * @param float $lon2 Longitude titik kedua
+ * 
+ * @return float Jarak dalam meter
+ */
+function hitungJarakRadius($lat1, $lon1, $lat2, $lon2)
+{
+    $radiusBumi = 6371000; // Radius bumi dalam meter
+
+    // Konversi derajat ke radian
+    $lat1 = deg2rad($lat1);
+    $lon1 = deg2rad($lon1);
+    $lat2 = deg2rad($lat2);
+    $lon2 = deg2rad($lon2);
+
+    // Menghitung perbedaan koordinat
+    $dLat = $lat2 - $lat1;
+    $dLon = $lon2 - $lon1;
+
+    // Menggunakan rumus Haversine
+    $a = sin($dLat / 2) * sin($dLat / 2) +
+        cos($lat1) * cos($lat2) *
+        sin($dLon / 2) * sin($dLon / 2);
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    // Menghitung jarak dalam meter
+    $jarak = $radiusBumi * $c;
+
+    return $jarak; // Return dalam meter
+}
