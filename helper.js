@@ -882,3 +882,21 @@ function hitungJarakRadius(lat1, lon1, lat2, lon2) {
 
   return jarak; // Return dalam meter
 }
+
+/**
+ * Menampilkan dan mengembalikan string yang telah di-escape agar aman ditampilkan di HTML.
+ * Escape karakter khusus seperti &, <, >, ", dan ' untuk mencegah XSS.
+ *
+ * @param {string} str - String yang ingin ditampilkan secara aman.
+ * @returns {string} - String yang telah di-escape.
+ */
+function fecho(str) {
+  const escaped = String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+  console.log(escaped);
+  return escaped;
+}

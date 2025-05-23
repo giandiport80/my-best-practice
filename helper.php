@@ -636,3 +636,8 @@ function hitungJarakRadius($lat1, $lon1, $lat2, $lon2)
 
     return $jarak; // Return dalam meter
 }
+
+function fecho($string)
+{
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
