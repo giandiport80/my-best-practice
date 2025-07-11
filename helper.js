@@ -603,7 +603,6 @@ function dateIndo(format, time) {
     'Sabtu',
   ];
   const months = [
-    '',
     'Jan',
     'Feb',
     'Mar',
@@ -618,7 +617,6 @@ function dateIndo(format, time) {
     'Des',
   ];
   const monthsFull = [
-    '',
     'Januari',
     'Februari',
     'Maret',
