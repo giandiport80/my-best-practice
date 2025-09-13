@@ -693,10 +693,6 @@ function dateIndo(format, time) {
   return ret;
 }
 
-const date = new Date(); // Tanggal dan waktu saat ini
-const formattedDate = dateIndo('d-M-Y H:i:s', date);
-console.log(formattedDate); // Contoh output: "Senin, 26 September 2023"
-
 /**
  * Toastr by code seven
  *
@@ -799,50 +795,6 @@ function detectDevice() {
 }
 
 /**
- * fungsi untuk generate objectId
- */
-function generateMongoObjectId() {
-  // Helper function to pad a number with leading zeros to get a 2-character hex string
-  function padTo2Digits(num) {
-    return num.toString(16).padStart(2, '0');
-  }
-
-  // 4-byte timestamp
-  const timestamp = Math.floor(Date.now() / 1000); // current time in seconds
-  const timestampHex = timestamp.toString(16).padStart(8, '0'); // Convert to hex and pad to 8 characters
-
-  // 3-byte machine identifier
-  const machineId = Array.from(crypto.getRandomValues(new Uint8Array(3)))
-    .map(byte => padTo2Digits(byte))
-    .join('');
-
-  // 2-byte process identifier
-  const processId = padTo2Digits(process.pid % 0xffff); // Use the process ID, modulo 2-byte range, convert to hex
-
-  // 3-byte counter
-  if (typeof generateMongoObjectId.counter === 'undefined') {
-    generateMongoObjectId.counter = Math.floor(Math.random() * 0xffffff); // Initialize with random value
-  } else {
-    generateMongoObjectId.counter =
-      (generateMongoObjectId.counter + 1) & 0xffffff; // Increment and ensure it's 3 bytes
-  }
-  const counterHex = generateMongoObjectId.counter
-    .toString(16)
-    .padStart(6, '0'); // Convert to hex and pad to 6 characters
-
-  // Combine all parts to form the ObjectId
-  return timestampHex + machineId + processId + counterHex;
-}
-
-function isValidObjectId(id) {
-  const objectIdPattern = /^[a-fA-F0-9]{24}$/;
-  return objectIdPattern.test(id);
-}
-
-console.log(isValidObjectId(generateMongoObjectId()));
-console.log(isValidObjectId(generateMongoObjectId()));
-
-/**
  * Menghitung jarak antara dua titik koordinat (latitude & longitude) dalam meter.
  *
  * Menggunakan rumus Haversine untuk mendapatkan jarak akurat di permukaan bumi.
@@ -890,11 +842,212 @@ function hitungJarakRadius(lat1, lon1, lat2, lon2) {
  */
 function fecho(str) {
   const escaped = String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
   console.log(escaped);
   return escaped;
+}
+
+/**
+ * Format angka dengan locale Indonesia
+ * @param {any} value - Angka/string yang mau diformat
+ * @returns {string} Angka terformat atau "" kalau null/undefined/bukan angka
+ */
+function formatNumber(value) {
+  if (value === null || value === undefined || value === '') {
+    return '';
+  }
+  const number = Number(value);
+  if (isNaN(number)) {
+    return '';
+  }
+  return number.toLocaleString('id-ID');
+}
+
+/**
+ * Escape data berdasarkan context (html, js, css, url, attr, raw).
+ * @param {any} data - Data yang akan di-escape (string atau array).
+ * @param {string} context - Context escape (default: html).
+ * @returns {any} - Data yang sudah di-escape.
+ */
+function esc(data, context = 'html') {
+  context = context.toLowerCase();
+
+  // raw → tidak di-escape
+  if (context === 'raw') {
+    return data;
+  }
+
+  // jika array/object → recursive
+  if (Array.isArray(data)) {
+    return data.map(item => esc(item, context));
+  }
+  if (typeof data === 'object' && data !== null) {
+    const newObj = {};
+    for (let key in data) {
+      newObj[key] = esc(data[key], context);
+    }
+    return newObj;
+  }
+
+  if (typeof data === 'string') {
+    switch (context) {
+      case 'html':
+        return data
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+
+      case 'attr':
+        return data
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+      case 'js':
+        return data
+          .replace(/\\/g, '\\\\')
+          .replace(/'/g, "\\'")
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r')
+          .replace(/\t/g, '\\t');
+
+      case 'css':
+        return data.replace(/["'\\]/g, match => '\\' + match);
+
+      case 'url':
+        return encodeURIComponent(data);
+
+      default:
+        throw new Error('Invalid escape context provided.');
+    }
+  }
+
+  return data;
+}
+
+/**
+ * sanitizeHTML(html) -> returns sanitized HTML string
+ * - whitelist tags & attributes
+ * - removes event handlers (on*) and style attributes
+ * - blocks javascript: and data: in href/src
+ */
+function sanitizeHTML(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString('<div>' + html + '</div>', 'text/html');
+  const container = doc.body.firstChild;
+
+  const ALLOWED = {
+    A: ['href', 'title', 'target', 'rel'],
+    IMG: ['src', 'alt', 'title', 'width', 'height'],
+    B: [],
+    STRONG: [],
+    I: [],
+    EM: [],
+    U: [],
+    P: [],
+    BR: [],
+    UL: [],
+    OL: [],
+    LI: [],
+    DIV: [],
+    SPAN: [],
+    TABLE: ['border'],
+    THEAD: [],
+    TBODY: [],
+    TR: [],
+    TD: ['colspan', 'rowspan'],
+    TH: ['colspan', 'rowspan'],
+    H1: [],
+    H2: [],
+    H3: [],
+    H4: [],
+    H5: [],
+    H6: [],
+  };
+
+  // Remove blacklisted tags entirely
+  const blacklist = [
+    'SCRIPT',
+    'STYLE',
+    'IFRAME',
+    'OBJECT',
+    'EMBED',
+    'LINK',
+    'META',
+    'FORM',
+    'INPUT',
+    'BUTTON',
+    'SVG',
+    'MATH',
+  ];
+  blacklist.forEach(tag => {
+    const nodes = container.querySelectorAll(tag);
+    nodes.forEach(n => n.remove());
+  });
+
+  // Walk nodes
+  const walker = document.createTreeWalker(
+    container,
+    NodeFilter.SHOW_ELEMENT,
+    null,
+    false
+  );
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach(el => {
+    const tag = el.tagName.toUpperCase();
+    if (!(tag in ALLOWED)) {
+      // unwrap element: replace node with its children
+      const parent = el.parentNode;
+      while (el.firstChild) parent.insertBefore(el.firstChild, el);
+      parent.removeChild(el);
+      return;
+    }
+    // sanitize attributes
+    const allowedAttrs = ALLOWED[tag];
+    // copy attributes to avoid live mutation issues
+    Array.from(el.attributes).forEach(attr => {
+      const name = attr.name.toLowerCase();
+      const val = attr.value;
+
+      // remove event handlers and style and xmlns
+      if (
+        name.startsWith('on') ||
+        name === 'style' ||
+        name.startsWith('xmlns')
+      ) {
+        el.removeAttribute(attr.name);
+        return;
+      }
+
+      if (!allowedAttrs.includes(name)) {
+        el.removeAttribute(attr.name);
+        return;
+      }
+
+      // block javascript:, vbscript:, data: (optionally allow data:image/)
+      if (['href', 'src'].includes(name)) {
+        const v = val.trim().toLowerCase();
+        if (/^(javascript:|vbscript:|data:)/.test(v)) {
+          el.removeAttribute(attr.name);
+          return;
+        }
+      }
+
+      // else keep attribute but escape potential broken input by re-setting
+      el.setAttribute(attr.name, val);
+    });
+  });
+
+  return container.innerHTML;
 }

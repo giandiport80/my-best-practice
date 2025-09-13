@@ -641,3 +641,104 @@ function fecho($string)
 {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
+
+/**
+ * Batasi jumlah kata dalam string
+ *
+ * @param string $text Teks yang mau dipotong
+ * @param int    $limit Jumlah kata maksimal
+ * @param string $end Karakter/teks setelah potongan
+ * @return string
+ */
+function limit_words(string $text = "", int $limit = 5, string $end = '...'): string
+{
+    if (!$text) {
+        return "";
+    }
+
+    // Hilangkan HTML tag biar aman
+    $text = strip_tags($text);
+
+    // Pisahkan jadi array kata
+    $words = preg_split('/\s+/', $text);
+
+    // Kalau jumlah kata <= limit, kembalikan asli
+    if (count($words) <= $limit) {
+        return $text;
+    }
+
+    // Ambil kata sesuai limit lalu gabung lagi
+    $limited = implode(' ', array_slice($words, 0, $limit));
+
+    return $limited . $end;
+}
+
+
+/**
+ * Membersihkan HTML dari tag <script> dan atribut berbahaya.
+ *
+ * @param string $html
+ * @return string
+ */
+function safeHtml(?string $html = ""): string
+{
+    if (empty($html)) {
+        return "";
+    }
+
+    // Escape semua tag <script> agar tidak dijalankan
+    $html = preg_replace_callback(
+        '/<script\b[^>]*>(.*?)<\/script>/is',
+        function ($matches) {
+            return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+        },
+        $html
+    );
+
+    // Escape semua tag <iframe> agar tidak dirender
+    $html = preg_replace_callback(
+        '/<iframe\b[^>]*>(.*?)<\/iframe>/is',
+        function ($matches) {
+            return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+        },
+        $html
+    );
+
+    // Hapus event handler seperti onclick, onmouseover, dll.
+    $html = preg_replace('/\son\w+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)/i', '', $html);
+
+    // Ganti javascript: di href/src jadi #
+    $html = preg_replace('/(href|src)\s*=\s*["\']?\s*javascript:[^"\']*/i', '$1="#"', $html);
+
+    return $html;
+}
+
+
+/**
+ * Membersihkan HTML untuk konten berita (hanya izinkan tag aman).
+ *
+ * @param string|null $html
+ * @return string
+ */
+function safeHtml2(?string $html = ""): string
+{
+    if (empty($html)) {
+        return "";
+    }
+
+    // 1. Hapus tag berbahaya total
+    $html = preg_replace('#<(script|iframe|object|embed|style|link|meta)(.*?)>(.*?)</\1>#is', '', $html);
+    $html = preg_replace('#<(script|iframe|object|embed|style|link|meta)(.*?)>#is', '', $html);
+
+    // 2. Hapus event handler (onclick, onmouseover, dll)
+    $html = preg_replace('/\son\w+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)/i', '', $html);
+
+    // 3. Hapus javascript: dan data: di href/src
+    $html = preg_replace('/(href|src)\s*=\s*["\']?\s*(javascript:|data:)[^"\'>]*/i', '$1="#"', $html);
+
+    // 4. Izinkan hanya tag tertentu (whitelist)
+    $allowed_tags = '<p><br><b><strong><i><em><u><ol><ul><li><h1><h2><h3><h4><h5><h6><a><img><blockquote>';
+    $html = strip_tags($html, $allowed_tags);
+
+    return $html;
+}
