@@ -1,0 +1,65 @@
+{
+  "table": "solaria_categories",
+  "rows": [
+    {
+      "id": 1,
+      "name": "Orang-orang pada doyan ini"
+    },
+    {
+      "id": 2,
+      "name": "Family Pack"
+    },
+    {
+      "id": 3,
+      "name": "Express Bowl"
+    },
+    {
+      "id": 4,
+      "name": "Menu Special"
+    },
+    {
+      "id": 5,
+      "name": "Bihun"
+    },
+    {
+      "id": 6,
+      "name": "Mie"
+    },
+    {
+      "id": 7,
+      "name": "Kwetiau"
+    },
+    {
+      "id": 8,
+      "name": "Nasi Goreng"
+    },
+    {
+      "id": 9,
+      "name": "Menu Paket"
+    },
+    {
+      "id": 10,
+      "name": "Lo Mie & I Fu Mie"
+    },
+    {
+      "id": 11,
+      "name": "Menu Lain"
+    },
+    {
+      "id": 12,
+      "name": "Special Drink"
+    },
+    {
+      "id": 13,
+      "name": "Snack"
+    },
+    {
+      "id": 14,
+      "name": "Minuman"
+    },
+    {
+      "id": 15,
+      "name": "Menu Porsi"
+    }
+  ]
+}
