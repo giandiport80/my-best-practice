@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "https://raw.githubusercontent.com/giandiport80/my-best-practice/main/api-json/images/banner/banner-solaria1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "https://raw.githubusercontent.com/giandiport80/my-best-practice/main/api-json/images/banner/banner-solaria2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "https://raw.githubusercontent.com/giandiport80/my-best-practice/main/api-json/images/banner/banner-solaria13.jpg"
+    }
+  ]
+}
