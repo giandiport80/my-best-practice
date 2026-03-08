@@ -4,19 +4,22 @@
     {
       "id": "1",
       "name": "admin",
-      "username": "admin@gmail.com",
+      "username": "admin123",
+      "email": "admin@gmail.com",
       "password": "123456"
     },
     {
       "id": "2",
       "name": "gian",
-      "username": "gian@gmail.com",
+      "username": "gian123",
+      "email": "gian@gmail.com",
       "password": "123456"
     },
     {
       "id": "3",
       "name": "user",
-      "username": "user@gmail.com",
+      "username": "user123",
+      "email": "user@gmail.com",
       "password": "123456"
     }
   ]
